@@ -1,36 +1,48 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
-const cors = require('cors');
+const cors = require("cors");
 
 app.use(cors());
 
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", true);
   next();
 });
 
 app.use(bodyParser.json());
 
-const citizenRoutes = require('./routes/routes.citizen');
-const loginRoutes = require('./routes/routes.login');
-const projectRoutes = require('./routes/routes.project');
+const citizenRoutes = require("./routes/routes.citizen");
+const loginRoutes = require("./routes/routes.login");
+const projectRoutes = require("./routes/routes.project");
+const quizRoutes = require("./routes/routes.quiz");
+const postRoutes = require("./routes/routes.post");
+const commentRoutes = require("./routes/routes.comment");
 
 const sampleObj = {
-  testKey: 'connected to api',
+  testKey: "connected to api",
 };
 
-app.use('/citizen', citizenRoutes);
+app.use("/citizen", citizenRoutes);
 
-app.use('/log', loginRoutes);
+app.use("/log", loginRoutes);
 
-app.use('/project', projectRoutes);
+app.use("/project", projectRoutes);
 
-app.get('/', (req, res) => {
+app.use("/quiz", quizRoutes);
+
+app.use("/post", postRoutes);
+
+app.use("/comment", commentRoutes);
+
+app.get("/", (req, res) => {
   res.send(sampleObj);
 });
 
