@@ -1,30 +1,34 @@
 const executePgQuery = require("../helpers/dbConnection");
+const { format } = require("date-fns");
 
 const columnMap = {
-  eventDate: true,
+  eventStart: true,
   eventName: true,
-  eventLocation: true,
+  location: true,
+  eventEnd: true,
+  price: true,
 };
 
 const createEvent = async (body) => {
   try {
     let columns = "";
-    let values = "";
+    let valueString = "";
+    let values = [];
 
-    Object.keys(body).forEach((key) => {
+    Object.keys(body).forEach((key, ind) => {
       if (body[key] !== undefined && columnMap[key]) {
         columns += `"${key}", `;
-        values += `'${typeof body[key] === "object" ? JSON.stringify(body[key]) : body[key]}', `;
+        valueString += `$${ind + 1}, `;
+        values.push(body[key]);
       }
     });
 
     columns = columns.slice(0, -2);
-    values = values.slice(0, -2);
+    valueString = valueString.slice(0, -2);
 
-    const query = `INSERT INTO "event" (${columns}) VALUES (${values}) RETURNING id;`;
-    console.log(query);
+    const query = `INSERT INTO "event" (${columns}) VALUES (${valueString}) RETURNING id;`;
 
-    const response = await executePgQuery(query);
+    const response = await executePgQuery(query, values);
     return {
       message: "added event successfully",
       id: response.rows[0].id,
@@ -40,7 +44,8 @@ const createEvent = async (body) => {
 
 const getFutureEvents = async () => {
   try {
-    const query = `SELECT * FROM "event" WHERE "eventDate" > NOW();`;
+    const formattedDate = format(new Date(), "yyyy-MM-dd HH:mm");
+    const query = `SELECT * FROM "event" WHERE "eventStart" > '${formattedDate}';`;
 
     const response = await executePgQuery(query);
     return response.rows;

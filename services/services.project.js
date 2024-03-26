@@ -1,26 +1,37 @@
-const executePgQuery = require('../helpers/dbConnection');
+const executePgQuery = require("../helpers/dbConnection");
 
 const columnMap = {
-  name: 'name',
-  department: 'department',
-  city: 'city',
-  duration: 'duration',
-  budget: 'budget',
-  projectStartDate: 'start_dt',
-  description: 'description',
-  opinions: 'opinions',
-  status: 'status',
+  name: "name",
+  department: "department",
+  city: "city",
+  duration: "duration",
+  budget: "budget",
+  projectStartDate: "start_dt",
+  createdDate: "create_dt",
+  description: "description",
+  opinions: "opinions",
+  status: "status",
+  upVotes: "upvote",
+  downVotes: "downvote",
+};
+
+const getColumnMap = {
+  project_id: "projectId",
+  start_dt: "projectStartDate",
+  create_dt: "createdDate",
+  upvote: "upVotes",
+  downvote: "downVotes",
 };
 
 const createProject = async (body) => {
   try {
-    let columns = '';
-    let values = '';
+    let columns = "";
+    let values = "";
 
     Object.keys(body).forEach((key) => {
       if (body[key] !== undefined && columnMap[key]) {
         columns += `${columnMap[key]}, `;
-        values += `'${typeof body[key] === 'object' ? JSON.stringify(body[key]) : body[key]}', `;
+        values += `'${typeof body[key] === "object" ? JSON.stringify(body[key]) : body[key]}', `;
       }
     });
 
@@ -32,7 +43,7 @@ const createProject = async (body) => {
     const response = await executePgQuery(query);
     console.log(response);
     return {
-      message: 'project added succesfully',
+      message: "project added succesfully",
       id: response.rows[0].citizen_id,
       status: 1,
     };
@@ -46,15 +57,14 @@ const createProject = async (body) => {
 
 const getActiveProjects = async (id, filters) => {
   try {
+    const queryKeys = `project_id as "${getColumnMap.project_id}", "name", department, city, duration, budget, start_dt as "${getColumnMap.start_dt}", description, create_dt as "${getColumnMap.create_dt}", opinions, upvote as "${getColumnMap.upvote}", downvote as "${getColumnMap.downvote}"`;
+
     let query = id
-      ? `SELECT * FROM project WHERE project_id=${id};`
-      : `SELECT * FROM project WHERE status=1;`;
+      ? `SELECT ${queryKeys} FROM project WHERE project_id=${id};`
+      : `SELECT ${queryKeys} FROM project WHERE status=1;`;
 
     if (filters)
-      query = `SELECT * from project where department='${filters.department}' AND create_dt BETWEEN '${filters.fromDate}' AND '${filters.toDate}';`;
-    console.log(query);
-
-    console.log(query);
+      query = `SELECT ${queryKeys} from project where department='${filters.department}' AND create_dt BETWEEN '${filters.fromDate}' AND '${filters.toDate}';`;
     const resp = await executePgQuery(query);
     return {
       projects: resp.rows,
@@ -74,7 +84,7 @@ const disableProject = async (id) => {
 
     await executePgQuery(query);
     return {
-      message: 'Successfully removed project',
+      message: "Successfully removed project",
       status: 1,
     };
   } catch (error) {
@@ -91,7 +101,7 @@ const insertOpinion = async (id, opinion) => {
 
     await executePgQuery(query);
     return {
-      projects: 'Successfully added opinion',
+      projects: "Successfully added opinion",
       status: 1,
     };
   } catch (error) {
