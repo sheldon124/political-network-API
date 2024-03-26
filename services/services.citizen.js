@@ -20,7 +20,6 @@ const registerCitizen = async (body) => {
     const checkEmailQuery = `SELECT * FROM citizen WHERE email='${body.email}';`;
 
     const checkEmailResp = await executePgQuery(checkEmailQuery);
-    console.log(checkEmailResp);
     if (checkEmailResp.rows?.length) {
       return {
         message: "user with email already exists",
@@ -28,11 +27,10 @@ const registerCitizen = async (body) => {
       };
     }
 
-    const checkPassportQuery = `SELECT * FROM citizen WHERE passport_number='${body.email}';`;
+    const checkPassportQuery = `SELECT * FROM citizen WHERE passport_number='${body.passportNumber}';`;
 
     const checkPassportResp = await executePgQuery(checkPassportQuery);
-    console.log(checkPassportResp);
-    if (checkEmailResp.rows?.length) {
+    if (checkPassportResp.rows?.length) {
       return {
         message: "user with passport already exists",
         status: 2,
