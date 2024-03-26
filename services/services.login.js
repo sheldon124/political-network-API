@@ -1,4 +1,4 @@
-const executePgQuery = require('../helpers/dbConnection');
+const executePgQuery = require("../helpers/dbConnection");
 
 const login = async (body) => {
   try {
@@ -7,16 +7,12 @@ const login = async (body) => {
 
     if (!loginResp.rows?.length)
       return {
-        message: 'Incorrect Email or Password',
+        message: "Incorrect Email or Password",
         status: 0,
       };
 
-    const sessionQuery = `INSERT INTO "session" (citizen_id) VALUES (${loginResp.rows[0].citizen_id});`;
-
-    await executePgQuery(sessionQuery);
-
     return {
-      message: 'Login Successful',
+      message: "Login Successful",
       userInfo: {
         id: loginResp.rows[0].citizen_id,
         role: loginResp.rows[0].role,
@@ -37,7 +33,7 @@ const logout = async (id) => {
     await executePgQuery(logoutQuery);
 
     return {
-      message: 'Logout Successful',
+      message: "Logout Successful",
       status: 1,
     };
   } catch (error) {
