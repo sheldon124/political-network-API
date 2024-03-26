@@ -66,8 +66,14 @@ const getActiveProjects = async (id, filters) => {
     if (filters)
       query = `SELECT ${queryKeys} from project where department='${filters.department}' AND create_dt BETWEEN '${filters.fromDate}' AND '${filters.toDate}';`;
     const resp = await executePgQuery(query);
+
+    // sort in descending
+    const listOfProjects = resp.rows.sort((a, b) => {
+      return b.projectId - a.projectId;
+    });
+
     return {
-      projects: resp.rows,
+      projects: listOfProjects,
       status: 1,
     };
   } catch (error) {
