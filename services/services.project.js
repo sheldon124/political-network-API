@@ -118,9 +118,43 @@ const insertOpinion = async (id, opinion) => {
   }
 };
 
+const upvoteProject = async (projectId, userId) => {
+  try {
+    const query = `SELECT update_project_upvote(${projectId},${userId});`;
+    await executePgQuery(query);
+    return {
+      message: "Successfully upvoted",
+      status: 1,
+    };
+  } catch (error) {
+    return {
+      message: error.message,
+      status: 0,
+    };
+  }
+};
+
+const downvoteProject = async (projectId, userId) => {
+  try {
+    const query = `SELECT update_project_downvote(${projectId},${userId});`;
+    await executePgQuery(query);
+    return {
+      message: "Successfully downvoted",
+      status: 1,
+    };
+  } catch (error) {
+    return {
+      message: error.message,
+      status: 0,
+    };
+  }
+};
+
 module.exports = {
   createProject,
   getActiveProjects,
   insertOpinion,
   disableProject,
+  upvoteProject,
+  downvoteProject,
 };
