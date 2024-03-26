@@ -1,5 +1,4 @@
 const { Router } = require("express");
-const executePgQuery = require("../helpers/dbConnection");
 const { createQuestion, getQuestions } = require("../services/services.quiz");
 
 const router = new Router();
