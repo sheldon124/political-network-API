@@ -122,8 +122,13 @@ const upvoteProject = async (projectId, userId) => {
   try {
     const query = `SELECT update_project_upvote(${projectId},${userId});`;
     await executePgQuery(query);
+    const queryKeys = `project_id as "${getColumnMap.project_id}", "name", department, city, duration, budget, start_dt as "${getColumnMap.start_dt}", description, create_dt as "${getColumnMap.create_dt}", opinions, upvote as "${getColumnMap.upvote}", downvote as "${getColumnMap.downvote}"`;
+    const projectQuery = `SELECT ${queryKeys} FROM project WHERE project_id=${projectId};`;
+    const resp = await executePgQuery(projectQuery);
+
     return {
       message: "Successfully upvoted",
+      project: resp.rows?.[0],
       status: 1,
     };
   } catch (error) {
@@ -138,8 +143,13 @@ const downvoteProject = async (projectId, userId) => {
   try {
     const query = `SELECT update_project_downvote(${projectId},${userId});`;
     await executePgQuery(query);
+    const queryKeys = `project_id as "${getColumnMap.project_id}", "name", department, city, duration, budget, start_dt as "${getColumnMap.start_dt}", description, create_dt as "${getColumnMap.create_dt}", opinions, upvote as "${getColumnMap.upvote}", downvote as "${getColumnMap.downvote}"`;
+    const projectQuery = `SELECT ${queryKeys} FROM project WHERE project_id=${projectId};`;
+    const resp = await executePgQuery(projectQuery);
+
     return {
       message: "Successfully downvoted",
+      project: resp.rows?.[0],
       status: 1,
     };
   } catch (error) {
