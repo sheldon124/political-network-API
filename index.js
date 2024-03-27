@@ -26,6 +26,7 @@ const quizRoutes = require("./routes/routes.quiz");
 const postRoutes = require("./routes/routes.post");
 const commentRoutes = require("./routes/routes.comment");
 const eventRoutes = require("./routes/routes.event");
+const partyRoutes = require("./routes/routes.party");
 
 const sampleObj = {
   testKey: "connected to api",
@@ -44,6 +45,8 @@ app.use("/post", postRoutes);
 app.use("/comment", commentRoutes);
 
 app.use("/event", eventRoutes);
+
+app.use("/party", partyRoutes);
 
 app.get("/", (req, res) => {
   res.send(sampleObj);
