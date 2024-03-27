@@ -57,7 +57,7 @@ const createProject = async (body) => {
 
 const getActiveProjects = async (id, filters) => {
   try {
-    const queryKeys = `project_id as "${getColumnMap.project_id}", "name", department, city, duration, budget, start_dt as "${getColumnMap.start_dt}", description, create_dt as "${getColumnMap.create_dt}", opinions, upvote as "${getColumnMap.upvote}", downvote as "${getColumnMap.downvote}"`;
+    const queryKeys = `project_id as "${getColumnMap.project_id}", "name", department, city, duration, budget, start_dt as "${getColumnMap.start_dt}", description, create_dt as "${getColumnMap.create_dt}", opinions, upvote as "${getColumnMap.upvote}", downvote as "${getColumnMap.downvote}", (SELECT count(*) FROM "comment" WHERE relation_id = project_id) as "totalComments"`;
 
     let query = id
       ? `SELECT ${queryKeys} FROM project WHERE project_id=${id};`
