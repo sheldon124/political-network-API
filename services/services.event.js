@@ -12,6 +12,7 @@ const columnMap = {
   capacity: true,
   organizer: true,
   isIdentityMandatory: true,
+  createdBy: true,
 };
 
 const createEvent = async (body) => {
@@ -20,10 +21,11 @@ const createEvent = async (body) => {
     let valueString = "";
     let values = [];
 
-    Object.keys(body).forEach((key, ind) => {
+    let index = 1;
+    Object.keys(body).forEach((key) => {
       if (body[key] !== undefined && columnMap[key]) {
         columns += `"${key}", `;
-        valueString += `$${ind + 1}, `;
+        valueString += `$${index++}, `;
         values.push(body[key]);
       }
     });
@@ -32,6 +34,8 @@ const createEvent = async (body) => {
     valueString = valueString.slice(0, -2);
 
     const query = `INSERT INTO "event" (${columns}) VALUES (${valueString}) RETURNING id;`;
+
+    console.log(query);
 
     const response = await executePgQuery(query, values);
     return {
