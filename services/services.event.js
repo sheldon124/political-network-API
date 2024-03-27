@@ -10,7 +10,7 @@ const columnMap = {
   price: true,
   imageURL: true,
   capacity: true,
-  organizerId: true,
+  organizer: true,
   isIdentityMandatory: true,
 };
 
