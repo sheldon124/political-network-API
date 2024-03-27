@@ -35,8 +35,6 @@ const createEvent = async (body) => {
 
     const query = `INSERT INTO "event" (${columns}) VALUES (${valueString}) RETURNING id;`;
 
-    console.log(query);
-
     const response = await executePgQuery(query, values);
     return {
       message: "added event successfully",
@@ -51,10 +49,12 @@ const createEvent = async (body) => {
   }
 };
 
-const getFutureEvents = async () => {
+const getFutureEvents = async (eventId) => {
   try {
     const formattedDate = format(new Date(), "yyyy-MM-dd HH:mm");
-    const query = `SELECT *, jsonb_array_length("registeredIds") AS registered FROM "event" WHERE "eventStart" > '${formattedDate}';`;
+    const query = !eventId
+      ? `SELECT *, jsonb_array_length("registeredIds") AS registered FROM "event" WHERE "eventStart" > '${formattedDate}';`
+      : `SELECT *, jsonb_array_length("registeredIds") AS registered FROM "event" WHERE "eventStart" > '${formattedDate}' AND id=${eventId};`;
 
     const response = await executePgQuery(query);
     return response.rows;

@@ -13,6 +13,12 @@ router.get("/futureevents", async (req, res) => {
   res.send(futureEvents);
 });
 
+router.get("/futureevents/:id", async (req, res) => {
+  const { id } = req.params;
+  const futureEvents = await getFutureEvents(id);
+  res.send(futureEvents);
+});
+
 router.post("/", async (req, res) => {
   const { body } = req;
   const response = await createEvent(body);
