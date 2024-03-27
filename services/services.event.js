@@ -50,7 +50,7 @@ const createEvent = async (body) => {
 const getFutureEvents = async () => {
   try {
     const formattedDate = format(new Date(), "yyyy-MM-dd HH:mm");
-    const query = `SELECT * FROM "event" WHERE "eventStart" > '${formattedDate}';`;
+    const query = `SELECT *, jsonb_array_length("registeredIds") AS registered FROM "event" WHERE "eventStart" > '${formattedDate}';`;
 
     const response = await executePgQuery(query);
     return response.rows;
@@ -62,4 +62,51 @@ const getFutureEvents = async () => {
   }
 };
 
-module.exports = { createEvent, getFutureEvents };
+const register = async (eventId, personId) => {
+  try {
+    const registerQuery = `UPDATE "event"
+    SET "registeredIds" = "registeredIds" || jsonb_build_array(${personId})
+    WHERE id = ${eventId};`;
+    await executePgQuery(registerQuery);
+    return {
+      message: "registered successfully",
+      status: 1,
+    };
+  } catch (error) {
+    return {
+      message: error.message,
+      status: 0,
+    };
+  }
+};
+
+const unRegister = async (eventId, personId) => {
+  try {
+    const query = `UPDATE "event"
+  SET "registeredIds" = COALESCE(
+      (
+          SELECT jsonb_agg(elem)
+          FROM (
+              SELECT jsonb_array_elements("registeredIds") AS elem
+              FROM "event"
+              WHERE id = ${eventId}
+          ) AS subquery
+          WHERE elem::int <> ${personId}
+      ),
+      '[]'
+  )
+  WHERE id = ${eventId};`;
+    await executePgQuery(query);
+    return {
+      message: "unregistered successfully",
+      status: 1,
+    };
+  } catch (error) {
+    return {
+      message: error.message,
+      status: 0,
+    };
+  }
+};
+
+module.exports = { createEvent, getFutureEvents, register, unRegister };
