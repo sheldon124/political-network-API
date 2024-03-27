@@ -43,7 +43,7 @@ const createComment = async (body) => {
 
 const getComments = async (projectId) => {
   try {
-    const query = `SELECT * FROM "comment" WHERE relation_id = ${projectId};`;
+    const query = `SELECT *, email, phone, "role", first_name, last_name FROM "comment", citizen WHERE relation_id = ${projectId} AND "comment".user_id = citizen.citizen_id;`;
     const response = await executePgQuery(query);
     return {
       comments: response.rows,
