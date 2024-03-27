@@ -4,9 +4,14 @@ const { format } = require("date-fns");
 const columnMap = {
   eventStart: true,
   eventName: true,
+  description: true,
   location: true,
   eventEnd: true,
   price: true,
+  imageURL: true,
+  capacity: true,
+  organizerId: true,
+  isIdentityMandatory: true,
 };
 
 const createEvent = async (body) => {
