@@ -41,6 +41,23 @@ const createComment = async (body) => {
   }
 };
 
+const getComments = async (projectId) => {
+  try {
+    const query = `SELECT * FROM "comment" WHERE relation_id = ${projectId};`;
+    const response = await executePgQuery(query);
+    return {
+      comments: response.rows,
+      status: 1,
+    };
+  } catch (error) {
+    return {
+      message: error.message,
+      status: 0,
+    };
+  }
+};
+
 module.exports = {
   createComment,
+  getComments,
 };

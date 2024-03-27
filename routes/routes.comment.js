@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = new Router();
-const { createComment } = require("../services/services.comment");
+const { createComment, getComments } = require("../services/services.comment");
 
 router.post("/", async (req, res) => {
   const { body } = req;
@@ -8,4 +8,9 @@ router.post("/", async (req, res) => {
   res.send(response);
 });
 
+router.get("/project/:id", async (req, res) => {
+  const { id } = req.params;
+  const response = await getComments(id);
+  res.send(response);
+});
 module.exports = router;
