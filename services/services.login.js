@@ -2,8 +2,10 @@ const executePgQuery = require("../helpers/dbConnection");
 
 const login = async (body) => {
   try {
-    const query = `SELECT * FROM citizen WHERE email='${body.email}' AND PASSWORD='${body.password}';`;
-    const loginResp = await executePgQuery(query);
+    // const query = `SELECT * FROM citizen WHERE email='${body.email}' AND PASSWORD='${body.password}';`;
+    const query = `SELECT * FROM citizen WHERE email=$1 AND PASSWORD=$2;`;
+
+    const loginResp = await executePgQuery(query, [body.email, body.password]);
 
     if (!loginResp.rows?.length)
       return {
