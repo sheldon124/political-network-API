@@ -89,4 +89,34 @@ const voteParty = async (personId, partyId) => {
   }
 };
 
-module.exports = { getAlignedParties, voteParty, getAllParties };
+const unvoteParty = async (personId, partyId) => {
+  try {
+    const unovteQuery = `UPDATE "party"
+SET "vote" = COALESCE(
+    (
+        SELECT jsonb_agg(elem)
+        FROM (
+            SELECT jsonb_array_elements("vote") AS elem
+            FROM "party"
+            WHERE id = ${partyId}
+        ) AS subquery
+        WHERE elem::int <> ${personId}
+    ),
+    '[]'
+)
+WHERE id = ${partyId};`;
+    await executePgQuery(unovteQuery);
+
+    return {
+      result: "successfully unvoted",
+      status: 1,
+    };
+  } catch (error) {
+    return {
+      message: error.message,
+      status: 0,
+    };
+  }
+};
+
+module.exports = { getAlignedParties, voteParty, unvoteParty, getAllParties };
