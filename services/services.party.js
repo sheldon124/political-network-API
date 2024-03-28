@@ -77,8 +77,12 @@ const voteParty = async (personId, partyId) => {
       WHERE id = ${partyId};`;
     }
     await executePgQuery(voteQuery);
+    const retrieveQuery = `SELECT * FROM party WHERE id=${partyId};`;
+    const partyData = await executePgQuery(retrieveQuery);
+
     return {
       result: "successfully voted",
+      party: partyData.rows[0],
       status: 1,
     };
   } catch (error) {
@@ -106,9 +110,12 @@ SET "vote" = COALESCE(
 )
 WHERE id = ${partyId};`;
     await executePgQuery(unovteQuery);
+    const retrieveQuery = `SELECT * FROM party WHERE id=${partyId};`;
+    const partyData = await executePgQuery(retrieveQuery);
 
     return {
       result: "successfully unvoted",
+      party: partyData.rows[0],
       status: 1,
     };
   } catch (error) {
