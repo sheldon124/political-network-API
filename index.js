@@ -27,6 +27,7 @@ const postRoutes = require("./routes/routes.post");
 const commentRoutes = require("./routes/routes.comment");
 const eventRoutes = require("./routes/routes.event");
 const partyRoutes = require("./routes/routes.party");
+const feedbackRoutes = require("./routes/routes.feedback");
 
 const sampleObj = {
   testKey: "connected to api",
@@ -47,6 +48,8 @@ app.use("/comment", commentRoutes);
 app.use("/event", eventRoutes);
 
 app.use("/party", partyRoutes);
+
+app.use("/feedback", feedbackRoutes);
 
 app.get("/", (req, res) => {
   res.send(sampleObj);
