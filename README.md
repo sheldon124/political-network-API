@@ -6,6 +6,7 @@ API for Advanced Software Engineering Project built on Nodejs and Expressjs
 * The database that this API interacts with is a PostgreSQL db
 * The base routes are defined in index.js, while the complete REST routes are implemented in separate files within the routes folder depending on the service
 * The services folder contains files and functions responsible for handling data retrieval and communication with the database. There are separate files for different services
+* Any merge to the main branch, automatically deployes the API on our Render server
 
 ## Services
 * citizen - APIs for citizen account registration
@@ -15,7 +16,7 @@ API for Advanced Software Engineering Project built on Nodejs and Expressjs
 * party - APIs to vote/unvote for parties, retrieve parties, and get list of parties aligned with user interests
 * project - APIs to create, retrieve, upvote/downvote and remove projects
 
-## Development server
+## Run server
 
 Run `npm start` for a dev server. Use `http://localhost:3000/` to make the API calls.
 
