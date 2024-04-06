@@ -11,7 +11,7 @@ const executePgQuery = require("../helpers/dbConnection");
  * @returns {Object} list of all parties
  */
 const getAllParties = async () => {
-  const query = `SELECT * FROM party;`;
+  const query = `SELECT * FROM party ORDER BY "name";`;
   try {
     const res = await executePgQuery(query);
     return {
