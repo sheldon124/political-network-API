@@ -24,7 +24,7 @@ const getColumnMap = {
 };
 
 /**
- * Namespace for Citizen related functions.
+ * Namespace for Project related functions.
  * @namespace Project
  */
 

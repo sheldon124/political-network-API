@@ -9,7 +9,7 @@ const columnMap = {
 };
 
 /**
- * Namespace for Citizen related functions.
+ * Namespace for Comment related functions.
  * @namespace Comment
  */
 

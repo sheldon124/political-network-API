@@ -16,7 +16,7 @@ const columnMap = {
 };
 
 /**
- * Namespace for Citizen related functions.
+ * Namespace for Event related functions.
  * @namespace Event
  */
 

@@ -1,7 +1,7 @@
 const executePgQuery = require("../helpers/dbConnection");
 
 /**
- * Namespace for Citizen related functions.
+ * Namespace for Login related functions.
  * @namespace Login
  */
 

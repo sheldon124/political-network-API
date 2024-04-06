@@ -7,7 +7,7 @@ const columnMap = {
 };
 
 /**
- * Namespace for Citizen related functions.
+ * Namespace for Feedback related functions.
  * @namespace Feedback
  */
 
