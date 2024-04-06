@@ -17,7 +17,8 @@ API for Advanced Software Engineering Project built on Nodejs and Expressjs
 
 ## Run server
 
-Run `npm start` for a dev server. Use `http://localhost:3000/` to make the API calls.
+First run `npm i` to install all the necessary dependencies.
+Then, `npm start` for a dev server. Use `http://localhost:3000/` to make the API calls.
 
 ## Further help
 
