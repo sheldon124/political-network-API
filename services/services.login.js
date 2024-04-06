@@ -1,5 +1,16 @@
 const executePgQuery = require("../helpers/dbConnection");
 
+/**
+ * Namespace for Citizen related functions.
+ * @namespace Login
+ */
+
+/**
+ * To check user credentials and login
+ * @memberof Login
+ * @param {Object} body contains username and password
+ * @returns {Object} contains message whether login is successful or not along with the user id and role if successful
+ */
 const login = async (body) => {
   try {
     // const query = `SELECT * FROM citizen WHERE email='${body.email}' AND PASSWORD='${body.password}';`;
@@ -29,6 +40,12 @@ const login = async (body) => {
   }
 };
 
+/**
+ * To logout from the application
+ * @memberof Login
+ * @param {Integer} id id of the user logging out
+ * @returns {Object} contains message stating whether Login is successful or the error message if not
+ */
 const logout = async (id) => {
   try {
     const logoutQuery = `UPDATE "session" SET status = 0 WHERE citizen_id=${id} AND status = 1;`;

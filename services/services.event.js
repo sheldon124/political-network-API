@@ -15,6 +15,18 @@ const columnMap = {
   createdBy: true,
 };
 
+/**
+ * Namespace for Citizen related functions.
+ * @namespace Event
+ */
+
+
+/**
+ * Method to create an event 
+ * @memberof Event
+ * @param {Object} body contins eventName, eventStart, eventEnd, location, description, capacity, organizer, createdBy and price of the event
+ * @returns {any}
+ */
 const createEvent = async (body) => {
   try {
     let columns = "";
@@ -49,6 +61,12 @@ const createEvent = async (body) => {
   }
 };
 
+/**
+ * Method to get the list of all future events or a future event based on event id
+ * @memberof Event
+ * @param {Integer} eventId optional parameter containing the id of the event if a particular event needs to be retrieved
+ * @returns {any}
+ */
 const getFutureEvents = async (eventId) => {
   try {
     const formattedDate = format(new Date(), "yyyy-MM-dd HH:mm");
@@ -66,6 +84,13 @@ const getFutureEvents = async (eventId) => {
   }
 };
 
+/**
+ * Method to register for an event
+ * @memberof Event
+ * @param {Integer} eventId id of the event to register
+ * @param {Integer} personId id of the person registering of the event
+ * @returns {any}
+ */
 const register = async (eventId, personId) => {
   try {
     const registerQuery = `UPDATE "event"
@@ -84,6 +109,13 @@ const register = async (eventId, personId) => {
   }
 };
 
+/**
+ * Method to un-register for an event
+ * @memberof Event
+ * @param {any} eventId id of the event to un-register from
+ * @param {any} personId id of the person registering of the event
+ * @returns {any}
+ */
 const unRegister = async (eventId, personId) => {
   try {
     const query = `UPDATE "event"
