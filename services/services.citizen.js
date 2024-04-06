@@ -12,6 +12,17 @@ const columnMap = {
   role: "role",
 };
 
+/**
+ * Namespace for Citizen related functions.
+ * @namespace Citizen
+ */
+
+/**
+ * Method to create a user in the citizen table
+ * @memberof Citizen
+ * @param {Object} body information of the citizen as a JSON object. It contains firstName, lastName, dob, city, passportNumber, contactNumber, email, password and role
+ * @returns {Object} message whether user created if successful, or message containing reason why creation is not successful
+ */
 const registerCitizen = async (body) => {
   try {
     let columns = "";

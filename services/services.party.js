@@ -1,7 +1,17 @@
 const executePgQuery = require("../helpers/dbConnection");
 
+/**
+ * Namespace for Party related functions.
+ * @namespace Party
+ */
+
+/**
+ * Method to get the list of all political parties
+ * @memberof Party
+ * @returns {Object} list of all parties
+ */
 const getAllParties = async () => {
-  const query = `SELECT * FROM party;`;
+  const query = `SELECT * FROM party ORDER BY "name";`;
   try {
     const res = await executePgQuery(query);
     return {
@@ -16,6 +26,12 @@ const getAllParties = async () => {
   }
 };
 
+/**
+ * Method to get the list of parties aligned with the interests of the user
+ * @memberof Party
+ * @param {Array} interests array of strings which are the list of interests of the user
+ * @returns {Object} containing the list of parties aligned with the user's interests
+ */
 const getAlignedParties = async (interests) => {
   if (interests.length === 0)
     return {
@@ -57,6 +73,13 @@ const getAlignedParties = async (interests) => {
   }
 };
 
+/**
+ * Method to vote for a particular party
+ * @memberof Party
+ * @param {Integer} personId id of the person voting for the party
+ * @param {Integer} partyId id of the party that is being voted
+ * @returns {Object} contains the message containing whether voting was successful or not, and the list of parties along with their votes
+ */
 const voteParty = async (personId, partyId) => {
   try {
     const voteExistsQuery = `SELECT id
@@ -77,7 +100,7 @@ const voteParty = async (personId, partyId) => {
       WHERE id = ${partyId};`;
     }
     await executePgQuery(voteQuery);
-    const retrieveQuery = `SELECT * FROM party;`;
+    const retrieveQuery = `SELECT * FROM party ORDER BY "name";`;
     const partyData = await executePgQuery(retrieveQuery);
 
     return {
@@ -93,6 +116,13 @@ const voteParty = async (personId, partyId) => {
   }
 };
 
+/**
+ * Method to un-vote for a particular party
+ * @memberof Party
+ * @param {Integer} personId id of the person un-voting for the party
+ * @param {Integer} partyId id of the party that is being un-voted
+ * @returns {Object} contains the message containing whether un-voting was successful or not, and the list of parties along with their votes
+ */
 const unvoteParty = async (personId, partyId) => {
   try {
     const unovteQuery = `UPDATE "party"
@@ -110,7 +140,7 @@ SET "vote" = COALESCE(
 )
 WHERE id = ${partyId};`;
     await executePgQuery(unovteQuery);
-    const retrieveQuery = `SELECT * FROM party;`;
+    const retrieveQuery = `SELECT * FROM party ORDER BY "name";`;
     const partyData = await executePgQuery(retrieveQuery);
 
     return {

@@ -6,6 +6,18 @@ const columnMap = {
   timestamp: true,
 };
 
+/**
+ * Namespace for Feedback related functions.
+ * @namespace Feedback
+ */
+
+
+/**
+ * To create feedback
+ * @memberof Feedback
+ * @param {Object} body contains the description, user id and timestamp
+ * @returns {Object} contains message if successful or not, and the feedback object if successful
+ */
 const createFeedback = async (body) => {
   try {
     let columns = "";
@@ -41,6 +53,11 @@ const createFeedback = async (body) => {
   }
 };
 
+/**
+ * To get all the feedback based on decreasing order of creation
+ * @memberof Feedback
+ * @returns {Object} containing the list of feedbacks
+ */
 const getFeedback = async () => {
   try {
     const query = `SELECT description, "userId", "timestamp", email, phone, "role", first_name, last_name FROM feedback, citizen WHERE feedback."userId" = citizen.citizen_id ORDER BY feedback."timestamp" DESC;`;

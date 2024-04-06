@@ -23,6 +23,18 @@ const getColumnMap = {
   downvote: "downVotes",
 };
 
+/**
+ * Namespace for Project related functions.
+ * @namespace Project
+ */
+
+
+/**
+ * Method to create a project
+ * @memberof Project
+ * @param {Object} body details of project including name, department, city, duration, budget, projectStartDate, description, createdDate, upVotes, downVotes
+ * @returns {any}
+ */
 const createProject = async (body) => {
   try {
     let columns = "";
@@ -55,6 +67,13 @@ const createProject = async (body) => {
   }
 };
 
+/**
+ * Method to get list of active projects or a single project based on id
+ * @memberof Project
+ * @param {Integer} id id of the project if a single project needs to be retrieved
+ * @param {Object} filters filters containing department, to & from date if list needs to be filtered based on these parameters
+ * @returns {Object} contains the list of projects
+ */
 const getActiveProjects = async (id, filters) => {
   try {
     const queryKeys = `project_id as "${getColumnMap.project_id}", "name", department, city, duration, budget, start_dt as "${getColumnMap.start_dt}", description, create_dt as "${getColumnMap.create_dt}", opinions, upvote as "${getColumnMap.upvote}", downvote as "${getColumnMap.downvote}", (SELECT count(*) FROM "comment" WHERE relation_id = project_id) as "totalComments"`;
@@ -84,6 +103,12 @@ const getActiveProjects = async (id, filters) => {
   }
 };
 
+/**
+ * Method to remove a project
+ * @memberof Project
+ * @param {Integer} id of the project to remove
+ * @returns {Object} message whether removal is successful or not
+ */
 const disableProject = async (id) => {
   try {
     const query = `UPDATE project SET status=0 WHERE project_id = ${id};`;
@@ -118,6 +143,13 @@ const insertOpinion = async (id, opinion) => {
   }
 };
 
+/**
+ * To upvote a project
+ * @memberof Project
+ * @param {Integer} projectId id of the project to upvote
+ * @param {Integer} userId id of the user upvoting the project
+ * @returns {Object} contains the message whether successful or not
+ */
 const upvoteProject = async (projectId, userId) => {
   try {
     const query = `SELECT update_project_upvote(${projectId},${userId});`;
@@ -139,6 +171,13 @@ const upvoteProject = async (projectId, userId) => {
   }
 };
 
+/**
+ * To downvote a project
+ * @memberof Project
+ * @param {Integer} projectId id of the project to downvote
+ * @param {Integer} userId id of the user downvoting the project
+ * @returns {Object} contains the message whether successful or not
+ */
 const downvoteProject = async (projectId, userId) => {
   try {
     const query = `SELECT update_project_downvote(${projectId},${userId});`;

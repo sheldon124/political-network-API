@@ -8,6 +8,17 @@ const columnMap = {
   user_id: true,
 };
 
+/**
+ * Namespace for Comment related functions.
+ * @namespace Comment
+ */
+
+/**
+ * Method to create a comment in the db
+ * @memberof Comment
+ * @param {Object} body contains the content, relation_id (project id or comment id), relation_type(project or comment), timestamp and user_id
+ * @returns {Object} message whether creation is successful or not, and comment info if successful
+ */
 const createComment = async (body) => {
   try {
     let columns = "";
@@ -41,6 +52,12 @@ const createComment = async (body) => {
   }
 };
 
+/**
+ * Method to get list of comments of a project
+ * @memberof Comment
+ * @param {Integer} projectId id of the project of which to retrieve comments
+ * @returns {Object} list of comments if successfull, error message if not
+ */
 const getComments = async (projectId) => {
   try {
     const query = `SELECT *, email, phone, "role", first_name, last_name FROM "comment", citizen WHERE relation_id = ${projectId} AND "comment".user_id = citizen.citizen_id;`;
