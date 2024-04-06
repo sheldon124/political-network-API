@@ -100,7 +100,7 @@ const voteParty = async (personId, partyId) => {
       WHERE id = ${partyId};`;
     }
     await executePgQuery(voteQuery);
-    const retrieveQuery = `SELECT * FROM party;`;
+    const retrieveQuery = `SELECT * FROM party ORDER BY "name";`;
     const partyData = await executePgQuery(retrieveQuery);
 
     return {
@@ -140,7 +140,7 @@ SET "vote" = COALESCE(
 )
 WHERE id = ${partyId};`;
     await executePgQuery(unovteQuery);
-    const retrieveQuery = `SELECT * FROM party;`;
+    const retrieveQuery = `SELECT * FROM party ORDER BY "name";`;
     const partyData = await executePgQuery(retrieveQuery);
 
     return {
