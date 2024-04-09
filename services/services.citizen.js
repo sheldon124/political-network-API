@@ -38,7 +38,6 @@ const registerCitizen = async (body) => {
     const getEmailsQuery = `SELECT email FROM citizen;`;
     const getEmailsResp = await executePgQuery(getEmailsQuery);
     const hashedEmailsFromDatabase = getEmailsResp.rows.map(row => row.email);
-    console.log(hashedEmailsFromDatabase);
 
     // Compare the hashed email from the input with each hashed email from the database
     for (const hashedEmailFromDatabase of hashedEmailsFromDatabase) {
