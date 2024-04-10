@@ -14,6 +14,7 @@ const columnMap = {
 
 /**
  * To create feedback
+ * - POST /feedback/
  * @memberof Feedback
  * @param {Object} body contains the description, user id and timestamp
  * @returns {Object} contains message if successful or not, and the feedback object if successful
@@ -55,6 +56,7 @@ const createFeedback = async (body) => {
 
 /**
  * To get all the feedback based on decreasing order of creation
+ * - GET /feedback/
  * @memberof Feedback
  * @returns {Object} containing the list of feedbacks
  */

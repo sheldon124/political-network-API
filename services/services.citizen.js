@@ -19,6 +19,7 @@ const columnMap = {
 
 /**
  * Method to create a user in the citizen table
+ * - POST /citizen/
  * @memberof Citizen
  * @param {Object} body information of the citizen as a JSON object. It contains firstName, lastName, dob, city, passportNumber, contactNumber, email, password and role
  * @returns {Object} message whether user created if successful, or message containing reason why creation is not successful
