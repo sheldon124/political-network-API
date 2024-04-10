@@ -18,7 +18,6 @@ const login = async (body) => {
     const getEmailsQuery = `SELECT email, password, citizen_id, role FROM citizen;`;
     const getEmailsResp = await executePgQuery(getEmailsQuery);
     const usersFromDatabase = getEmailsResp.rows;
-    console.log(usersFromDatabase);
 
     // Iterate through each user in the database
     for (const user of usersFromDatabase) {

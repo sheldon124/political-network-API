@@ -90,7 +90,6 @@ const registerCitizen = async (body) => {
     const query = `INSERT INTO citizen (${columns}) VALUES (${values}) RETURNING citizen_id;`;
 
     const response = await executePgQuery(query);
-    console.log(response);
     return {
       message: "citizen added succesfully",
       id: response.rows[0].citizen_id,
