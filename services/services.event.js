@@ -23,6 +23,7 @@ const columnMap = {
 
 /**
  * Method to create an event 
+ * - POST /event/
  * @memberof Event
  * @param {Object} body contins eventName, eventStart, eventEnd, location, description, capacity, organizer, createdBy and price of the event
  * @returns {any}
@@ -63,6 +64,7 @@ const createEvent = async (body) => {
 
 /**
  * Method to get the list of all future events or a future event based on event id
+ * - GET /event/futureevents/ & - GET /event/futureevents/:event_id
  * @memberof Event
  * @param {Integer} eventId optional parameter containing the id of the event if a particular event needs to be retrieved
  * @returns {any}
@@ -86,6 +88,7 @@ const getFutureEvents = async (eventId) => {
 
 /**
  * Method to register for an event
+ * - PATCH /event/register
  * @memberof Event
  * @param {Integer} eventId id of the event to register
  * @param {Integer} personId id of the person registering of the event
@@ -111,6 +114,7 @@ const register = async (eventId, personId) => {
 
 /**
  * Method to un-register for an event
+ * - PATCH /event/unregister
  * @memberof Event
  * @param {any} eventId id of the event to un-register from
  * @param {any} personId id of the person registering of the event
