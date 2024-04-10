@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 
 /**
  * To check user credentials and login
+ * - POST /log/login
  * @memberof Login
  * @param {Object} body contains username and password
  * @returns {Object} contains message whether login is successful or not along with the user id and role if successful
@@ -61,6 +62,7 @@ const login = async (body) => {
 
 /**
  * To logout from the application
+ * - POST /log/logout/:person_id
  * @memberof Login
  * @param {Integer} id id of the user logging out
  * @returns {Object} contains message stating whether Login is successful or the error message if not

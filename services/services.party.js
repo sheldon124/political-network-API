@@ -7,6 +7,7 @@ const executePgQuery = require("../helpers/dbConnection");
 
 /**
  * Method to get the list of all political parties
+ * - GET /party/
  * @memberof Party
  * @returns {Object} list of all parties
  */
@@ -28,6 +29,7 @@ const getAllParties = async () => {
 
 /**
  * Method to get the list of parties aligned with the interests of the user
+ * - POST /party/
  * @memberof Party
  * @param {Array} interests array of strings which are the list of interests of the user
  * @returns {Object} containing the list of parties aligned with the user's interests
@@ -75,6 +77,7 @@ const getAlignedParties = async (interests) => {
 
 /**
  * Method to vote for a particular party
+ * - PATCH /party/vote
  * @memberof Party
  * @param {Integer} personId id of the person voting for the party
  * @param {Integer} partyId id of the party that is being voted
@@ -118,6 +121,7 @@ const voteParty = async (personId, partyId) => {
 
 /**
  * Method to un-vote for a particular party
+ * - PATCH /party/unvote
  * @memberof Party
  * @param {Integer} personId id of the person un-voting for the party
  * @param {Integer} partyId id of the party that is being un-voted

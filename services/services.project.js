@@ -31,6 +31,7 @@ const getColumnMap = {
 
 /**
  * Method to create a project
+ * - POST /project/
  * @memberof Project
  * @param {Object} body details of project including name, department, city, duration, budget, projectStartDate, description, createdDate, upVotes, downVotes
  * @returns {any}
@@ -69,6 +70,7 @@ const createProject = async (body) => {
 
 /**
  * Method to get list of active projects or a single project based on id
+ * - GET /project/active & GET /project/active/:project_id
  * @memberof Project
  * @param {Integer} id id of the project if a single project needs to be retrieved
  * @param {Object} filters filters containing department, to & from date if list needs to be filtered based on these parameters
@@ -105,6 +107,7 @@ const getActiveProjects = async (id, filters) => {
 
 /**
  * Method to remove a project
+ * - PATCH /project/disable/:project_id
  * @memberof Project
  * @param {Integer} id of the project to remove
  * @returns {Object} message whether removal is successful or not
@@ -145,6 +148,7 @@ const insertOpinion = async (id, opinion) => {
 
 /**
  * To upvote a project
+ * - PATCH /project/upvote
  * @memberof Project
  * @param {Integer} projectId id of the project to upvote
  * @param {Integer} userId id of the user upvoting the project
@@ -173,6 +177,7 @@ const upvoteProject = async (projectId, userId) => {
 
 /**
  * To downvote a project
+ * - PATCH /project/downvote
  * @memberof Project
  * @param {Integer} projectId id of the project to downvote
  * @param {Integer} userId id of the user downvoting the project
