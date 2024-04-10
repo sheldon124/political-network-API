@@ -31,7 +31,6 @@ const createQuestion = async (body) => {
 
     const query = `INSERT INTO quiz (${columns}) VALUES (${values}) RETURNING id;`;
 
-    console.log(query);
 
     const response = await executePgQuery(query);
     return {

@@ -1,4 +1,5 @@
 const executePgQuery = require("../helpers/dbConnection");
+const bcrypt = require('bcrypt');
 
 /**
  * Namespace for Login related functions.
@@ -7,30 +8,49 @@ const executePgQuery = require("../helpers/dbConnection");
 
 /**
  * To check user credentials and login
+ * - POST /log/login
  * @memberof Login
  * @param {Object} body contains username and password
  * @returns {Object} contains message whether login is successful or not along with the user id and role if successful
  */
 const login = async (body) => {
   try {
-    // const query = `SELECT * FROM citizen WHERE email='${body.email}' AND PASSWORD='${body.password}';`;
-    const query = `SELECT * FROM citizen WHERE email=$1 AND PASSWORD=$2;`;
+    // Fetch all hashed emails from the database
+    const getEmailsQuery = `SELECT email, password, citizen_id, role FROM citizen;`;
+    const getEmailsResp = await executePgQuery(getEmailsQuery);
+    const usersFromDatabase = getEmailsResp.rows;
 
-    const loginResp = await executePgQuery(query, [body.email, body.password]);
+    // Iterate through each user in the database
+    for (const user of usersFromDatabase) {
+      const emailMatches = await bcrypt.compare(body.email, user.email);
 
-    if (!loginResp.rows?.length)
-      return {
-        message: "Incorrect Email or Password",
-        status: 0,
-      };
+      if (emailMatches) {
+        // If the email matches, compare the password
+        const passwordMatches = await bcrypt.compare(body.password, user.password);
 
+        if (passwordMatches) {
+          // If both email and password match, login successful
+          return {
+            message: "Login Successful",
+            userInfo: {
+              id: user.citizen_id,
+              role: user.role,
+            },
+            status: 1,
+          };
+        } else {
+          return {
+            message: "Incorrect Email or Password",
+            status: 0,
+          };
+        }
+      } 
+    } 
+
+    // If no matching email is found
     return {
-      message: "Login Successful",
-      userInfo: {
-        id: loginResp.rows[0].citizen_id,
-        role: loginResp.rows[0].role,
-      },
-      status: 1,
+      message: "Incorrect Email or Password",
+      status: 0,
     };
   } catch (error) {
     return {
@@ -42,6 +62,7 @@ const login = async (body) => {
 
 /**
  * To logout from the application
+ * - POST /log/logout/:person_id
  * @memberof Login
  * @param {Integer} id id of the user logging out
  * @returns {Object} contains message stating whether Login is successful or the error message if not

@@ -25,7 +25,6 @@ const executePgQuery = async (query, values) => {
     } else {
       res = await pool.query(query, values);
     }
-    console.log("query executed");
     return res;
   } catch (error) {
     console.error(error);
